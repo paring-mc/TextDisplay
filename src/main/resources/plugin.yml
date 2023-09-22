@@ -1,0 +1,6 @@
+name: ${pluginName}
+version: ${pluginVersion}
+main: ${pluginMain}
+api-version: ${paperVersion}
+libraries:
+  ${pluginLibraries}
