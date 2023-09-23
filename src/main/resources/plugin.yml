@@ -2,6 +2,7 @@ name: ${pluginName}
 version: ${pluginVersion}
 main: ${pluginMain}
 api-version: ${paperVersion}
+author: paring <me@paring.moe>
 libraries:
   ${pluginLibraries}
 softdepend:
