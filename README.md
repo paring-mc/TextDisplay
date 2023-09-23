@@ -33,6 +33,10 @@ A plugin that makes text display, supporting [PlaceholderAPI](https://github.com
 | shadow            | whether or not to show text shadow                                |
 | lineWidth         | width per line                                                    |
 
+### Advanced editing
+
+You can see all texts in plugins/TextDisplay/texts folder. You can change the files and run `/textdisplay reload`
+
 ## Permissions
 
 All commands have permission starting with `textdisplay.command`
