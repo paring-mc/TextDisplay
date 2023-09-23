@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
 plugins {
     idea
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.paperweight)
 }
 

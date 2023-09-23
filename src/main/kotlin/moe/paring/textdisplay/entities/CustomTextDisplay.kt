@@ -6,17 +6,25 @@ import io.github.monun.tap.fake.tap
 import io.github.monun.tap.loader.LibraryLoader
 import io.github.monun.tap.protocol.PacketSupport
 import io.github.monun.tap.protocol.sendPacket
+import moe.paring.textdisplay.persistence.DisplayConfig
 import moe.paring.textdisplay.plugin.TextDisplayPlugin
+import moe.paring.textdisplay.util.displayAttributes
 import moe.paring.textdisplay.util.setPlaceholders
+import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.json.JSONComponentSerializer
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
+import org.bukkit.Color
 import org.bukkit.Location
+import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Display
 import org.bukkit.entity.Player
 import org.bukkit.entity.TextDisplay
+import org.bukkit.util.Transformation
+import org.joml.AxisAngle4f
+import org.joml.Vector3f
 
 class CustomTextDisplay(
-    private val plugin: TextDisplayPlugin, val name: String, val location: Location, private val text: String
+    private val plugin: TextDisplayPlugin, val name: String, val config: DisplayConfig
 ) {
     val players = hashSetOf<Player>()
 
@@ -24,15 +32,26 @@ class CustomTextDisplay(
 
     private val fakeSupportNMS = LibraryLoader.loadNMS(FakeSupport::class.java)
 
-    private var entity: TextDisplay? = null
+    var entity: TextDisplay? = null
 
     fun load() {
         require(!loaded)
         loaded = true
 
-        entity = fakeSupportNMS.createEntity<TextDisplay>(TextDisplay::class.java, location.world).apply {
+        entity = fakeSupportNMS.createEntity<TextDisplay>(TextDisplay::class.java, config.world).apply {
             tap().location = location
-            billboard = Display.Billboard.CENTER
+            backgroundColor = Color.fromARGB(0)
+
+            transformation = Transformation(
+                config.translation,
+                config.leftRotation,
+                config.scale,
+                config.rightRotation
+            )
+
+            displayAttributes.forEach { attr ->
+                attr.set(this, config.attributes[attr.name])
+            }
         }
     }
 
@@ -42,11 +61,17 @@ class CustomTextDisplay(
                 player.sendPacket(it)
             }
 
-            player.sendPacket(PacketSupport.entityTeleport(entity, location))
+            player.sendPacket(PacketSupport.entityTeleport(entity, config.location))
+        }
+        updateFor(player)
+    }
+
+    fun updateFor(player: Player) {
+        entity?.let { entity ->
             player.sendPacket(PacketSupport.entityMetadata(entity.apply {
-                val content = this@CustomTextDisplay.text.setPlaceholders(player)
+                val content = config.text.setPlaceholders(player)
                 text(runCatching { JSONComponentSerializer.json().deserialize(content) }.getOrElse {
-                    LegacyComponentSerializer.legacyAmpersand().deserialize(content)
+                    LegacyComponentSerializer.legacyAmpersand().deserialize(content.replace("\\n", "\n"))
                 })
             }))
         }
@@ -56,5 +81,26 @@ class CustomTextDisplay(
         entity?.let {
             player.sendPacket(PacketSupport.removeEntity(it.entityId))
         }
+    }
+
+    fun unload() {
+        players.forEach { despawnTo(it) }
+        players.clear()
+        entity?.remove()
+        entity = null
+        loaded = false
+    }
+
+    fun applyAndReload() {
+        unload()
+        load()
+
+        // save
+        saveConfig()
+    }
+
+    fun saveConfig() {
+        val file = plugin.textsDir.resolve("$name.yml")
+        YamlConfiguration().apply { config.store(this) }.save(file)
     }
 }

@@ -5,4 +5,5 @@ paper = "1.20.1-R0.1-SNAPSHOT"
 
 [plugins]
 kotlin_jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlinx_serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 paperweight = { id = "io.papermc.paperweight.userdev", version.ref = "paperweight" }

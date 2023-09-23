@@ -10,7 +10,9 @@ fun TextDisplayPlugin.registerCommands() {
 
             help()
             create(this@registerCommands)
-            list()
+            reload(this@registerCommands)
+            delete(this@registerCommands)
+            set()
         }
     }
 }
