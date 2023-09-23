@@ -18,8 +18,7 @@ java {
 
 repositories {
     mavenCentral()
-
-    maven(url = "https://repo.dmulloy2.net/repository/public/")
+    maven(url = "https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
 
 dependencies {
@@ -29,7 +28,7 @@ dependencies {
     implementation("io.github.monun:kommand-api:3.1.7")
     implementation("io.github.monun:tap-api:4.9.8")
 
-    implementation("com.comphenix.protocol:ProtocolLib:5.1.0")
+    compileOnly("me.clip:placeholderapi:2.11.3")
 
     paperweight.paperDevBundle(libs.versions.paper)
 }

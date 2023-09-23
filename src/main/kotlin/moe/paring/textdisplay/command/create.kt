@@ -17,7 +17,7 @@ fun RootNode.create(plugin: TextDisplayPlugin) {
         then("name" to string()) {
             then("position" to position()) {
                 then("rotation" to rotation()) {
-                    then("text" to string(StringType.GREEDY_PHRASE)) {
+                    then("text" to string(StringType.QUOTABLE_PHRASE)) {
                         executesCatching { context ->
                             val name: String by context
                             val position: Position3D by context

@@ -1,64 +1,60 @@
 package moe.paring.textdisplay.entities
 
-import io.github.monun.tap.fake.FakeEntity
 import io.github.monun.tap.fake.FakeSupport
 import io.github.monun.tap.fake.createSpawnPacket
+import io.github.monun.tap.fake.tap
 import io.github.monun.tap.loader.LibraryLoader
-import io.github.monun.tap.protocol.PacketContainer
 import io.github.monun.tap.protocol.PacketSupport
 import io.github.monun.tap.protocol.sendPacket
 import moe.paring.textdisplay.plugin.TextDisplayPlugin
-import net.kyori.adventure.text.Component
-import org.bukkit.Bukkit
+import moe.paring.textdisplay.util.setPlaceholders
+import net.kyori.adventure.text.serializer.json.JSONComponentSerializer
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Location
+import org.bukkit.entity.Display
 import org.bukkit.entity.Player
 import org.bukkit.entity.TextDisplay
 
 class CustomTextDisplay(
-    private val plugin: TextDisplayPlugin, val name: String, private val location: Location, private val text: String
+    private val plugin: TextDisplayPlugin, val name: String, val location: Location, private val text: String
 ) {
+    val players = hashSetOf<Player>()
+
     private var loaded = false
 
     private val fakeSupportNMS = LibraryLoader.loadNMS(FakeSupport::class.java)
+
+    private var entity: TextDisplay? = null
 
     fun load() {
         require(!loaded)
         loaded = true
 
-//        entity = plugin.fake.spawnEntity(location, TextDisplay::class.java).apply {
-//            bukkitEntity.apply {
-//                this.text(Component.text(this@CustomTextDisplay.text))
-//            }
-//        }
-
-        addOnlinePlayers()
-    }
-
-    private fun addOnlinePlayers() {
-        Bukkit.getOnlinePlayers().forEach { player ->
-            plugin.logger.info("Adding $player")
-            addPlayer(player)
+        entity = fakeSupportNMS.createEntity<TextDisplay>(TextDisplay::class.java, location.world).apply {
+            tap().location = location
+            billboard = Display.Billboard.CENTER
         }
     }
 
-    private fun addPlayer(player: Player) {
-        buildCreatePacket(player).forEach { packet ->
-            player.sendPacket(packet)
+    fun spawnTo(player: Player) {
+        entity?.let { entity ->
+            entity.createSpawnPacket().forEach {
+                player.sendPacket(it)
+            }
+
+            player.sendPacket(PacketSupport.entityTeleport(entity, location))
+            player.sendPacket(PacketSupport.entityMetadata(entity.apply {
+                val content = this@CustomTextDisplay.text.setPlaceholders(player)
+                text(runCatching { JSONComponentSerializer.json().deserialize(content) }.getOrElse {
+                    LegacyComponentSerializer.legacyAmpersand().deserialize(content)
+                })
+            }))
         }
     }
 
-    private fun buildCreatePacket(player: Player): Array<out PacketContainer> {
-        val targetLoc = this@CustomTextDisplay.location
-        val entity = fakeSupportNMS.createEntity<TextDisplay>(TextDisplay::class.java, location.world).apply {
-            location.x = targetLoc.x
-            location.y = targetLoc.y
-            location.z = targetLoc.z
-            location.pitch = targetLoc.pitch
-            location.yaw = targetLoc.yaw
-
-            text(Component.text("wow this is test something"))
+    fun despawnTo(player: Player) {
+        entity?.let {
+            player.sendPacket(PacketSupport.removeEntity(it.entityId))
         }
-
-        return entity.createSpawnPacket()
     }
 }

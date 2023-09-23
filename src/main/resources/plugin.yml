@@ -2,7 +2,7 @@ name: ${pluginName}
 version: ${pluginVersion}
 main: ${pluginMain}
 api-version: ${paperVersion}
-depend:
-  - ProtocolLib
 libraries:
   ${pluginLibraries}
+softdepend:
+  - PlaceholderAPI

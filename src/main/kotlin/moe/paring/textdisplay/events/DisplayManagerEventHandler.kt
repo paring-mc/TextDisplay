@@ -1,21 +1,21 @@
 package moe.paring.textdisplay.events
 
-import io.github.monun.tap.fake.FakeEntityServer
+import moe.paring.textdisplay.manager.TextDisplayManager
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 
 @Suppress("unused")
-class FakeServerEventHandler(private val fakeServer: FakeEntityServer) : Listener {
+class DisplayManagerEventHandler(private val textDisplayManager: TextDisplayManager) : Listener {
     @EventHandler
     fun onPlayerJoin(e: PlayerJoinEvent) {
-        fakeServer.addPlayer(e.player)
+        textDisplayManager.addPlayer(e.player)
     }
 
 
     @EventHandler
     fun onPlayerQuit(e: PlayerQuitEvent) {
-        fakeServer.removePlayer(e.player)
+        textDisplayManager.removePlayer(e.player)
     }
 }

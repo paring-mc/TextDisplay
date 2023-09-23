@@ -1,33 +1,26 @@
 package moe.paring.textdisplay.plugin
 
-import io.github.monun.tap.fake.FakeEntityServer
 import moe.paring.textdisplay.command.registerCommands
-import moe.paring.textdisplay.events.FakeServerEventHandler
+import moe.paring.textdisplay.events.DisplayManagerEventHandler
 import moe.paring.textdisplay.manager.TextDisplayManager
-import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
+import java.util.function.Consumer
 
 class TextDisplayPlugin : JavaPlugin() {
     val textManager = TextDisplayManager(this)
-//    lateinit var fake: FakeEntityServer
+
+    val spawnDistance: Double = 160.0
+    val despawnDistance: Double = 180.0
 
     override fun onEnable() {
-//        fake = FakeEntityServer.create(this)
-
-//        registerExistingPlayers()
-
-//        server.pluginManager.registerEvents(FakeServerEventHandler(fake), this)
-
-//        server.scheduler.runTaskTimer(this, Runnable {
-//            fake.update()
-//        }, 0L, 1L)
-
         registerCommands()
-    }
 
-//    private fun registerExistingPlayers() {
-//        Bukkit.getOnlinePlayers().forEach { player ->
-//            fake.addPlayer(player)
-//        }
-//    }
+        server.scheduler.runTaskTimer(this, Consumer { textManager.update() }, 0, 1)
+
+        server.pluginManager.registerEvents(DisplayManagerEventHandler(textManager), this)
+
+        server.onlinePlayers.forEach { player ->
+            textManager.addPlayer(player)
+        }
+    }
 }
