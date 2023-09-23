@@ -30,7 +30,10 @@ class TextDisplayPlugin : JavaPlugin() {
         updateFromGitHub("pikokr", "TextDisplay", "TextDisplay.jar") {
             onSuccess { logger.info("Update available! Download at $it") }
                 .onFailure {
-                    if (it is UpToDateException) return@onFailure
+                    if (it is UpToDateException) {
+                        logger.info("Already up to date.")
+                        return@onFailure
+                    }
                     logger.info("Failed to check update: $it")
                 }
         }
