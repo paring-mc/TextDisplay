@@ -19,13 +19,11 @@ fun RootNode.delete(plugin: TextDisplayPlugin) {
                 plugin.textManager.delete(display)
                 plugin.reload()
 
-                runCatching {
-                    broadcast(
-                        Component.text("Deleted text display ")
-                            .append(Component.text(name).color(NamedTextColor.GREEN))
-                            .append(Component.text("."))
-                    ) { isOp }
-                }.onFailure { plugin.logger.info(it.toString()) }
+                broadcast(
+                    Component.text("Deleted text display ")
+                        .append(Component.text(name).color(NamedTextColor.GREEN))
+                        .append(Component.text("."))
+                ) { isOp }
             }
         }
     }
