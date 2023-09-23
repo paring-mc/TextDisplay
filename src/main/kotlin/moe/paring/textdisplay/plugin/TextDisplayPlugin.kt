@@ -1,5 +1,6 @@
 package moe.paring.textdisplay.plugin
 
+import io.github.monun.tap.util.UpToDateException
 import io.github.monun.tap.util.updateFromGitHub
 import me.clip.placeholderapi.PlaceholderAPI
 import moe.paring.textdisplay.command.registerCommands
@@ -25,9 +26,13 @@ class TextDisplayPlugin : JavaPlugin() {
     }
 
     override fun onEnable() {
+        logger.info("Checking for updates...")
         updateFromGitHub("pikokr", "TextDisplay", "TextDisplay.jar") {
             onSuccess { logger.info("Update available! Download at $it") }
-                .onFailure { logger.info("Failed to check update: $it") }
+                .onFailure {
+                    if (it is UpToDateException) return@onFailure
+                    logger.info("Failed to check update: $it")
+                }
         }
 
         instance = this
