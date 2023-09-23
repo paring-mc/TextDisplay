@@ -10,6 +10,8 @@ import net.kyori.adventure.text.format.NamedTextColor
 
 fun RootNode.help() {
     then("help") {
+        requires { hasPermission("textdisplay.command.help") }
+
         executes {
             fun TextComponent.Builder.appendHelp(
                 name: String, detail: String, command: String = name
