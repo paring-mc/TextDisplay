@@ -18,6 +18,8 @@ java {
 
 repositories {
     mavenCentral()
+
+    maven(url = "https://repo.dmulloy2.net/repository/public/")
 }
 
 dependencies {
@@ -26,6 +28,8 @@ dependencies {
 
     implementation("io.github.monun:kommand-api:3.1.7")
     implementation("io.github.monun:tap-api:4.9.8")
+
+    implementation("com.comphenix.protocol:ProtocolLib:5.1.0")
 
     paperweight.paperDevBundle(libs.versions.paper)
 }
