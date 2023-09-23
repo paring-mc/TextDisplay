@@ -24,6 +24,9 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
 
+    implementation("io.github.monun:kommand-api:3.1.7")
+    implementation("io.github.monun:tap-api:4.9.8")
+
     paperweight.paperDevBundle(libs.versions.paper)
 }
 
@@ -43,7 +46,7 @@ extra.apply {
 
         if (group == "org.jetbrains.kotlin" && version == null) {
             version = getKotlinPluginVersion()
-        } else if (group == "io.github.monun.tap" && name.endsWith("-api")) {
+        } else if (group == "io.github.monun" && name.endsWith("-api")) {
             name = name.removeSuffix("api") + "core"
         }
 
@@ -68,14 +71,16 @@ tasks {
         from(jar)
 
         val plugins = file(".server/plugins")
+        val updateDir = plugins.resolve("update")
 
         if (plugins.resolve("${project.name}-$version-dev.jar").exists()) {
-            val updateDir = plugins.resolve("update")
             into(updateDir)
-
-            delete(updateDir.resolve("RELOAD"))
         } else {
             into(plugins)
+        }
+
+        doLast {
+            delete(updateDir.resolve("RELOAD"))
         }
     }
 }

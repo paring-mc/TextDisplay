@@ -5,6 +5,7 @@ MEMORY=4G
 
 PLUGINS=(
   'https://github.com/monun/auto-reloader/releases/download/0.0.6/auto-reloader-0.0.6.jar'
+  'https://github.com/dmulloy2/ProtocolLib/releases/download/5.1.0/ProtocolLib.jar'
 )
 
 set -x
