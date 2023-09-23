@@ -1,5 +1,6 @@
 package moe.paring.textdisplay.plugin
 
+import io.github.monun.tap.util.updateFromGitHub
 import me.clip.placeholderapi.PlaceholderAPI
 import moe.paring.textdisplay.command.registerCommands
 import moe.paring.textdisplay.events.DisplayManagerEventHandler
@@ -24,6 +25,11 @@ class TextDisplayPlugin : JavaPlugin() {
     }
 
     override fun onEnable() {
+        updateFromGitHub("pikokr", "TextDisplay", "TextDisplay.jar") {
+            onSuccess { logger.info("Update available! Download at $it") }
+                .onFailure { logger.info("Failed to check update: $it") }
+        }
+
         instance = this
         hasPlaceholderAPI = server.pluginManager.getPlugin("PlaceholderAPI") != null
 
