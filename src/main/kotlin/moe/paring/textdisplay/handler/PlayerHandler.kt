@@ -13,7 +13,8 @@ class PlayerHandler(
     fun update() {
         manager.displays.values.forEach { display ->
             run {
-                if (display.config.location.world === player.location.world) {
+                val loc = runCatching { display.config.location }.getOrElse { return@run }
+                if (loc.world === player.location.world) {
                     val spawnDistanceSquared = plugin.spawnDistance.let { it * it }
                     val despawnDistanceSquared = plugin.despawnDistance.let { it * it }
 

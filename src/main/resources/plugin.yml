@@ -8,3 +8,4 @@ libraries:
 softdepend:
   - PlaceholderAPI
 load: POSTWORLD
+website: https://github.com/pikokr/TextDisplay

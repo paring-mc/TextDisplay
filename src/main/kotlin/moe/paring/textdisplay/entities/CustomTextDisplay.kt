@@ -35,10 +35,13 @@ class CustomTextDisplay(
     var entity: TextDisplay? = null
 
     fun load() {
-        require(!loaded)
+        if (loaded) return
+
+        val world = runCatching { config.world }.getOrElse { return }
+
         loaded = true
 
-        entity = fakeSupportNMS.createEntity<TextDisplay>(TextDisplay::class.java, config.world).apply {
+        entity = fakeSupportNMS.createEntity<TextDisplay>(TextDisplay::class.java, world).apply {
             tap().location = location
             backgroundColor = Color.fromARGB(0)
 

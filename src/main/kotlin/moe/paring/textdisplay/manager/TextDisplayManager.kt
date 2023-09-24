@@ -27,6 +27,7 @@ class TextDisplayManager(private val plugin: TextDisplayPlugin) {
     }
 
     fun update() {
+        displays.values.forEach { it.load() }
         players.forEach { (_, handler) -> handler.update() }
     }
 
