@@ -71,6 +71,10 @@ tasks {
         }
     }
 
+    jar {
+        archiveFileName = project.name + ".jar"
+    }
+
     create<Copy>("serverJar") {
         from(jar)
 
