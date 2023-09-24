@@ -3,6 +3,8 @@ package moe.paring.textdisplay.util
 import io.github.monun.kommand.KommandArgument
 import me.clip.placeholderapi.libs.kyori.adventure.text.format.NamedTextColor
 import me.clip.placeholderapi.libs.kyori.adventure.text.format.TextColor
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.TextComponent
 import org.bukkit.Color
 import org.bukkit.entity.Display.Billboard
 import org.bukkit.entity.TextDisplay
@@ -17,7 +19,8 @@ data class DisplayAttribute<T>(
     val decode: (Any) -> T,
     val encode: (T) -> Any,
     val getter: TextDisplay.() -> T,
-    val setter: TextDisplay.(T) -> Unit
+    val setter: TextDisplay.(T) -> Unit,
+    val formatter: (T) -> TextComponent = { Component.text(it.toString()) }
 ) {
     @Suppress("UNCHECKED_CAST")
     fun encodeAny(value: Any?): Any {
@@ -27,6 +30,11 @@ data class DisplayAttribute<T>(
     @Suppress("UNCHECKED_CAST")
     fun set(display: TextDisplay, value: Any?) {
         setter(display, value as T)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun format(value: Any?): TextComponent {
+        return formatter(value as T)
     }
 }
 
@@ -88,5 +96,5 @@ val displayAttributes = arrayOf<DisplayAttribute<*>>(
         { it },
         { lineWidth },
         { lineWidth = it }
-    ),
+    )
 )

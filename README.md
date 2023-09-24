@@ -41,11 +41,12 @@ You can see all texts in plugins/TextDisplay/texts folder. You can change the fi
 
 All commands have permission starting with `textdisplay.command`
 
-| Command             | Permission          |
-|---------------------|---------------------|
-| /textdisplay        | textdisplay.command |
-| /textdisplay help   | textdisplay.help    |
-| /textdisplay create | textdisplay.create  |
-| /textdisplay set    | textdisplay.set     |
-| /textdisplay delete | textdisplay.delete  |
-| /textdisplay reload | textdisplay.reload  |
+| Command             | Permission                 |
+|---------------------|----------------------------|
+| /textdisplay        | textdisplay.command        |
+| /textdisplay help   | textdisplay.command.help   |
+| /textdisplay create | textdisplay.command.create |
+| /textdisplay set    | textdisplay.command.set    |
+| /textdisplay delete | textdisplay.command.delete |
+| /textdisplay reload | textdisplay.command.reload |
+| /textdisplay info   | textdisplay.command.info   |

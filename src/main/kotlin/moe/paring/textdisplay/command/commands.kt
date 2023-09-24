@@ -12,6 +12,7 @@ fun TextDisplayPlugin.registerCommands() {
             create(this@registerCommands)
             reload(this@registerCommands)
             delete(this@registerCommands)
+            info()
             set()
         }
     }

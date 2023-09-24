@@ -55,7 +55,7 @@ class TextDisplayPlugin : JavaPlugin() {
         registerOnlinePlayers()
     }
 
-    fun loadTexts() {
+    private fun loadTexts() {
         textsDir.listFiles()?.forEach {
             logger.info("Loading text from $it")
             val conf = YamlConfiguration.loadConfiguration(it)

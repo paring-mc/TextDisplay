@@ -10,7 +10,10 @@ import io.github.monun.kommand.wrapper.Rotation
 import moe.paring.textdisplay.entities.CustomTextDisplay
 import moe.paring.textdisplay.util.display
 import moe.paring.textdisplay.util.displayAttributes
+import moe.paring.textdisplay.util.displayInfo
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.event.ClickEvent
+import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.NamedTextColor
 import org.joml.AxisAngle4f
 import org.joml.Vector3f
@@ -20,16 +23,15 @@ fun RootNode.set() {
         requires { sender.hasPermission("textdisplay.command.set") }
 
         then("display" to display) {
-            fun KommandSource.sendUpdateLog(attr: String, display: String, value: String) {
+            fun KommandSource.sendUpdateLog(attr: String, display: CustomTextDisplay, value: String) {
                 broadcast(
                     Component
                         .text()
                         .append(Component.text("Changed "))
-                        .append(Component.text(attr).color(NamedTextColor.YELLOW))
-                        .append(Component.text(" of "))
-                        .append(Component.text(display).color(NamedTextColor.GREEN))
-                        .append(Component.text(" to "))
-                        .append(Component.text(value).color(NamedTextColor.BLUE))
+                        .append(Component.text(attr).color(NamedTextColor.YELLOW)
+                            .hoverEvent(HoverEvent.showText(Component.text("Copy value to clipboard"))).clickEvent(ClickEvent.copyToClipboard(value)))
+                        .append(Component.text(" of display "))
+                        .append(Component.text(display.name).displayInfo(display))
                         .append(Component.text("."))
                 ) { isOp }
             }
@@ -44,7 +46,7 @@ fun RootNode.set() {
 
                         display.applyAndReload()
 
-                        sendUpdateLog("text", display.name, value)
+                        sendUpdateLog("text", display, value)
                     }
                 }
             }
@@ -61,7 +63,7 @@ fun RootNode.set() {
 
                         display.applyAndReload()
 
-                        sendUpdateLog("position", display.name, "$value")
+                        sendUpdateLog("position", display, "${value.x} ${value.y} ${value.z}")
                     }
                 }
             }
@@ -77,7 +79,7 @@ fun RootNode.set() {
 
                         display.applyAndReload()
 
-                        sendUpdateLog("rotation", display.name, "(${value.pitch}, ${value.yaw})")
+                        sendUpdateLog("rotation", display, "(${value.pitch}, ${value.yaw})")
                     }
                 }
             }
@@ -90,7 +92,7 @@ fun RootNode.set() {
 
                         display.config.updateInterval = value
 
-                        sendUpdateLog("updateInterval", display.name, "$value")
+                        sendUpdateLog("updateInterval", display, "$value")
 
                         display.saveConfig()
                     }
@@ -127,7 +129,7 @@ fun RootNode.set() {
 
                         display.applyAndReload()
 
-                        sendUpdateLog("scale", display.name, "($x, $y, $z)")
+                        sendUpdateLog("scale", display, "($x, $y, $z)")
                     }
                 }
             }
@@ -144,7 +146,7 @@ fun RootNode.set() {
 
                         display.applyAndReload()
 
-                        sendUpdateLog("translation", display.name, "($x, $y, $z)")
+                        sendUpdateLog("translation", display, "($x, $y, $z)")
                     }
                 }
             }
@@ -162,7 +164,7 @@ fun RootNode.set() {
 
                         display.applyAndReload()
 
-                        sendUpdateLog("leftRotation", display.name, "($x, $y, $z, $angle)")
+                        sendUpdateLog("leftRotation", display, "($x, $y, $z, $angle)")
                     }
                 }
             }
@@ -180,7 +182,7 @@ fun RootNode.set() {
 
                         display.applyAndReload()
 
-                        sendUpdateLog("rightRotation", display.name, "($x, $y, $z, $angle)")
+                        sendUpdateLog("rightRotation", display, "($x, $y, $z, $angle)")
                     }
                 }
             }
@@ -196,7 +198,7 @@ fun RootNode.set() {
 
                             display.applyAndReload()
 
-                            sendUpdateLog(attr.name, display.name, "$value")
+                            sendUpdateLog(attr.name, display, "$value")
                         }
                     }
                 }
