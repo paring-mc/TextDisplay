@@ -9,6 +9,7 @@ A plugin that makes text display, supporting [PlaceholderAPI](https://github.com
 ```
 /textdisplay help - Shows help message
 /textdisplay create <name> <x> <y> <z> <text> - Create a text display
+/textdisplay info <name> - Get info about display
 /textdisplay set <name> <property> <value> - Edit a text display(text, scale, shadow, background, etc...)
 /textdisplay delete <name> - Delete a text display
 /textdisplay reload - Reload texts from config file

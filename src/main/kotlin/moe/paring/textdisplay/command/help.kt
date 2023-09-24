@@ -31,6 +31,7 @@ fun RootNode.help() {
                     .appendHelp("$command help", "Shows this message")
                     .appendHelp("$command create <name> <x> <y> <z> <text>", "Create a display", "$command create ")
                     .appendHelp("$command set <name> <property> <value>", "Set a property for display", "$command set ")
+                    .appendHelp("$command info <name>", "Get details of display", "$command info ")
                     .appendHelp("$command delete <name>", "Delete a display", "$command delete ")
                     .appendHelp("$command reload", "Reload all text displays").build()
             )
