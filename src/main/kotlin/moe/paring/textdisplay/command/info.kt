@@ -57,7 +57,7 @@ fun RootNode.info() {
                                         .color(NamedTextColor.GOLD)
                                 )
                                 .append(Component.text(" on "))
-                                .append(Component.text(location.world.name).color(NamedTextColor.AQUA))
+                                .append(Component.text(loc.world.name).color(NamedTextColor.AQUA))
                                 .build(),
                             hoverEvent = HoverEvent.showText(Component.text("Click to teleport")),
                             clickAction = ClickEvent.callback {
