@@ -28,7 +28,7 @@ class TextDisplayPlugin : JavaPlugin() {
     override fun onEnable() {
         logger.info("Checking for updates...")
         updateFromGitHub("pikokr", "TextDisplay", "TextDisplay.jar") {
-            onSuccess { logger.info("Update available! Download at $it") }
+            onSuccess { logger.info("Update available! Download at https://github.com$it") }
                 .onFailure {
                     if (it is UpToDateException) {
                         logger.info("Already up to date.")
