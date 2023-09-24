@@ -7,3 +7,4 @@ libraries:
   ${pluginLibraries}
 softdepend:
   - PlaceholderAPI
+load: POSTWORLD
