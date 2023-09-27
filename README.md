@@ -2,6 +2,8 @@
 
 A plugin that makes text display, supporting [PlaceholderAPI](https://github.com/PlaceholderAPI/PlaceholderAPI)!
 
+![Modrinth](https://img.shields.io/modrinth/dt/bJM974v4?logo=modrinth&label=Modrinth)
+
 ![img.png](img/preview.png)
 
 ## Usage
