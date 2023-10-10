@@ -2,6 +2,12 @@
 
 A plugin that makes text display, supporting [PlaceholderAPI](https://github.com/PlaceholderAPI/PlaceholderAPI)!
 
+## Download
+
+Download at [Modrinth](https://modrinth.com/plugin/textdisplay) or [Releases](https://github.com/pikokr/TextDisplay/releases)
+
+You can also get [snapshot builds](https://jenkins.paring.moe/job/Paper/job/TextDIsplay/)
+
 ![Modrinth](https://img.shields.io/modrinth/dt/bJM974v4?logo=modrinth&label=Modrinth)
 
 ![img.png](img/preview.png)
