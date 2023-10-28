@@ -29,7 +29,7 @@ dependencies {
     implementation("io.github.monun:kommand-api:3.1.7")
     implementation("io.github.monun:tap-api:4.9.8")
 
-    compileOnly("me.clip:placeholderapi:2.11.4")
+    compileOnly("me.clip:placeholderapi:2.11.5")
 
     paperweight.paperDevBundle(libs.versions.paper)
 }
