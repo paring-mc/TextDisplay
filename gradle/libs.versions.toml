@@ -1,6 +1,6 @@
 [versions]
 kotlin = "1.9.10"
-paperweight = "1.5.9"
+paperweight = "1.5.12"
 paper = "1.20.1-R0.1-SNAPSHOT"
 
 [plugins]
